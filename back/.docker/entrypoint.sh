@@ -1,8 +1,9 @@
 #!/bin/bash
 
-# if [ ! -f ".env" ]; then
-#   cp .env.example .env
-# fi
+#if no env. file, create one based on .env.example file:
+if [ ! -f ".env" ]; then
+  cp .env.example .env
+fi
 
 npm install
 
