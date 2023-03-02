@@ -18,8 +18,8 @@ services:
     image: mongo:4.4.4
     restart: always
     volumes:
-      - ./.docker/dbdata:/data/db                       # salvo a db em um dir local - add dir ao .gitignore
-      - ./.docker/mongo:/docker-entrypoint-initdb.d     # roda um script para carregar dados numa db padrão Nest
+      - ./.docker/dbdata:/data/db                       # dir local que vai salvar a db - add dir ao .gitignore
+      - ./.docker/mongo:/docker-entrypoint-initdb.d     # dir com o script para carregar dados numa db padrão Nest
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=root

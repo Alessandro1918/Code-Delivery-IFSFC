@@ -1,11 +1,25 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Inject, OnModuleInit } from '@nestjs/common';
 import { RoutesService } from './routes.service';
 import { CreateRouteDto } from './dto/create-route.dto';
 import { UpdateRouteDto } from './dto/update-route.dto';
+import { ClientKafka } from '@nestjs/microservices';
+import { Producer } from 'kafkajs';
 
 @Controller('routes')
-export class RoutesController {
-  constructor(private readonly routesService: RoutesService) {}
+export class RoutesController implements OnModuleInit {
+
+  private kafkaProducer: Producer;
+  
+  constructor(
+    private readonly routesService: RoutesService,
+
+    @Inject('KAFKA_SERVICE')
+    private kafkaClient: ClientKafka
+  ) {}
+
+  async onModuleInit() {
+    this.kafkaProducer = await this.kafkaClient.connect();
+  }
 
   @Post()
   create(@Body() createRouteDto: CreateRouteDto) {
@@ -20,6 +34,20 @@ export class RoutesController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.routesService.findOne(+id);
+  }
+
+  //Demo route, send message to kafka; will use websockets in another moment
+  @Get(':id/start')
+  startRoute(@Param('id') id: string) {
+    this.kafkaProducer.send({
+      topic: 'route.new-direction',
+      messages: [
+        {
+          key: 'route.new-direction',
+          value: JSON.stringify({ routeId: id, clientId: '' })
+        }
+      ]
+    })
   }
 
   @Patch(':id')
