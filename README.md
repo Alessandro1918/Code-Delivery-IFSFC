@@ -21,7 +21,7 @@ Projeto desenvolvido durante a Semana de Imersão Full Stack Full Cycle em fever
 ### 🌎 Testando o simulador de GPS:
 
 Terminal 1 - Ordena início de um novo deslocamento
-(Produz uma mensagem com topic=route.new-direction)
+(Produz uma mensagem com <code>topic=route.new-direction</code>)
 ```bash
 $ cd simulator/.docker/kafka          # go to the right directory
 $ docker-compose up -d                # starts the container (detached)
@@ -32,7 +32,7 @@ $ kafka-console-producer --bootstrap-server=localhost:9092 --topic=route.new-dir
 ```
 
 Terminal 2 - Envia coordenadas
-(Recebe uma mensagem com topic=route.new-direction e produz várias mensagens com topic=route.new-position)
+(Recebe uma mensagem com <code>topic=route.new-direction</code> e produz várias mensagens com <code>topic=route.new-position</code>)
 ```bash
 cd simulator                          # go to the right directory
 docker-compose up -d                  # starts the container (detached)
@@ -42,7 +42,7 @@ go run main.go                        # run the main.go file
 ```
 
 Terminal 3 - Recebe coordenadas
-(Recebe várias mensagens com topic=route.new-position)
+(Recebe várias mensagens com <code>topic=route.new-position</code>)
 ```bash
 $ cd simulator/.docker/kafka          # go to the right directory
 $ docker-compose up -d                # starts the container (detached)
